@@ -1,16 +1,17 @@
-let button = document.querySelector("#dice-button");
+const button = document.querySelector ("#dice-button");
+const adviceId = document.getElementById("advice-id");
+const adviceDescription = document.getElementById("advice-description");
 
 button.addEventListener('click', giveAdvice);
 
-async function randomAdvice(advice) {
-    const response = await fetch(`https://api.adviceslip.com/${advice}`);
-    return await response.json();
-}
+async function giveAdvice() {
+    const response = await fetch("https://api.adviceslip.com/advice");
+    const adviceContent = await response.json();
+    const givenId = `Advice #${adviceContent.slip.id}`;
+    const givenAdvice = `"${adviceContent.slip.advice}"`;
 
-async function giveAdvice(advice){
-    const givenAdvice = await randomAdvice();
-    const contentAdvice = await givenAdvice(advice);
-    document.getElementById("advice-description").textContent = contentAdvice;
+    adviceId.innerHTML = givenId;
+    adviceDescription.innerHTML = givenAdvice;
 }
 
 giveAdvice()
